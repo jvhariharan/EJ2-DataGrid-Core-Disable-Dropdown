@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<ejs-dropdownlist id="games" dataSource="@ViewBag.data" index="2" placeholder="Select a game" popupHeight="220px" created="onCreated" select="onSelect">
+</ejs-dropdownlist>
+
+<script>
+    function onCreated() {
+        var dropdownObj = document.getElementById('games').ej2_instances[0];
+        if (dropdownObj.liCollections[3]) {
+            dropdownObj.liCollections[3].classList.add("e-disabled");
+            dropdownObj.liCollections[4].classList.add("e-disabled");
+        }
+    }
+    function onSelect(e) {
+        if (e.item.classList.contains("e-disabled")) {
+            var item = e.item;
+            e.cancel = true;
+            if (e.e.type == "keydown" && e.e.action == "down") {
+                while (item.classList.contains("e-disabled") && item != null) {
+                    item = item.nextElementSibling;
+                }
+                selectitem(this, item);
+            }
+            if (e.e.type == "keydown" && e.e.action == "up") {
+                while (item.classList.contains("e-disabled") && item != null) {
+                    item = item.previousElementSibling;
+                }
+                selectitem(this, item);
+            }
+        }
+    }
+    function selectitem(inst, item) {
+        inst.text = item.innerText;
+        item.classList.add('e-hover');
+    }
+</script>
